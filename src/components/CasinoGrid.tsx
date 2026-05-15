@@ -80,6 +80,19 @@ export function CasinoGrid() {
           <GameThumbnail key={game.game_uid} game={game} onLaunch={handleGameLaunch} />
         ))}
       </div>
+      <LoginDialog
+        open={loginOpen}
+        onOpenChange={setLoginOpen}
+        title="Login to Play"
+        description={pendingGame ? `Login to launch ${pendingGame.game_name}` : "Please login to play games"}
+        onSuccess={() => {
+          if (pendingGame) {
+            const g = pendingGame;
+            setPendingGame(null);
+            setTimeout(() => launchGame(g), 300);
+          }
+        }}
+      />
     </div>
   );
 }
