@@ -82,6 +82,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary" },
       { name: "twitter:title", content: "RoyalBet — Premium Sports Betting & Live Casino" },
       { name: "twitter:description", content: "RoyalBet — fast, secure, and smart betting on cricket, football, live casino, and more." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/f81a444e-74ce-4f90-b7b9-d37b374069ff/id-preview-a4bd70a3--c531bf07-58db-41fa-957e-c3698f99f29d.lovable.app-1778882153608.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/f81a444e-74ce-4f90-b7b9-d37b374069ff/id-preview-a4bd70a3--c531bf07-58db-41fa-957e-c3698f99f29d.lovable.app-1778882153608.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
