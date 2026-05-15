@@ -4,6 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
 import { Loader2, ArrowRight } from "lucide-react";
 import type { ThrvexGame } from "@/hooks/useThrvexGames";
+import { getLocalThrvexGamesFlat } from "@/hooks/useThrvexGames";
 import { getGameGradient } from "@/lib/gameIcons";
 
 const FEATURED_PROVIDERS = ["Spribe", "JILIGaming"];
@@ -16,35 +17,17 @@ export function CasinoGrid() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const load = async () => {
-      try {
-        const projId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
-        const allGames: ThrvexGame[] = [];
-        
-        const results = await Promise.allSettled(
-          FEATURED_PROVIDERS.map(async (prov) => {
-            const resp = await globalThis.fetch(
-              `https://${projId}.supabase.co/functions/v1/thrvex-games?action=games&provider=${encodeURIComponent(prov)}&v=2`,
-              { cache: "no-store" }
-            );
-            if (!resp.ok) return [] as ThrvexGame[];
-            const json = await resp.json();
-            return (json.data || []).slice(0, 8) as ThrvexGame[];
-          })
-        );
-        
-        results.forEach((r) => {
-          if (r.status === "fulfilled") allGames.push(...r.value);
-        });
-        
-        setGames(allGames);
-      } catch (e) {
-        console.error("Failed to fetch featured games:", e);
-      } finally {
-        setLoading(false);
+    try {
+      const all: ThrvexGame[] = [];
+      for (const prov of FEATURED_PROVIDERS) {
+        all.push(...getLocalThrvexGamesFlat(prov).slice(0, 8));
       }
-    };
-    load();
+      setGames(all);
+    } catch (e) {
+      console.error("Failed to load featured games:", e);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   const handleGameLaunch = (game: ThrvexGame) => {
