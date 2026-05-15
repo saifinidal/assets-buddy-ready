@@ -159,9 +159,9 @@ const Casino = () => {
       `https://${projId}.supabase.co/functions/v1/thrvex-games?action=games&provider=${encodeURIComponent(activeProvider)}&v=2`,
       { cache: "no-store" }
     )
-      .then(r => r.json())
+      .then(r => r.ok ? r.json() : { data: [] })
       .then(json => setProviderGames(json.data || []))
-      .catch(e => console.error("Failed to fetch provider games:", e))
+      .catch(() => setProviderGames([]))
       .finally(() => setProviderLoading(false));
   }, [activeProvider]);
 
