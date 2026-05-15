@@ -248,15 +248,15 @@
   }
 
   .gradient-hero {
-    background: linear-gradient(135deg, hsl(220 30% 6%) 0%, hsl(220 25% 12%) 50%, hsl(45 80% 15%) 100%);
+    background: linear-gradient(135deg, hsl(0 40% 8%) 0%, hsl(0 60% 18%) 50%, hsl(45 80% 25%) 100%);
   }
 
   .gold-gradient {
-    background: linear-gradient(135deg, hsl(45 100% 50%) 0%, hsl(38 100% 42%) 100%);
+    background: linear-gradient(135deg, hsl(45 90% 55%) 0%, hsl(38 100% 45%) 100%);
   }
 
   .navy-gradient {
-    background: linear-gradient(180deg, hsl(220 30% 12%) 0%, hsl(220 25% 8%) 100%);
+    background: linear-gradient(180deg, hsl(0 60% 35%) 0%, hsl(0 70% 25%) 100%);
   }
 
   /* Smooth safe-area transitions */
