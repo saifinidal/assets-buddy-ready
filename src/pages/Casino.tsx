@@ -145,15 +145,13 @@ const Casino = () => {
       return;
     }
     setProviderLoading(true);
-    const projId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
-    globalThis.fetch(
-      `https://${projId}.supabase.co/functions/v1/thrvex-games?action=games&provider=${encodeURIComponent(activeProvider)}&v=2`,
-      { cache: "no-store" }
-    )
-      .then(r => r.ok ? r.json() : { data: [] })
-      .then(json => setProviderGames(json.data || []))
-      .catch(() => setProviderGames([]))
-      .finally(() => setProviderLoading(false));
+    try {
+      setProviderGames(getLocalThrvexGamesFlat(activeProvider));
+    } catch {
+      setProviderGames([]);
+    } finally {
+      setProviderLoading(false);
+    }
   }, [activeProvider]);
 
   // Filter providers by category - only allow Spribe & JILIGaming
