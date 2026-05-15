@@ -123,28 +123,19 @@ const Casino = () => {
     setLoading(true);
     setActiveProvider(null);
 
-    const projId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
-    const fetchAll = async () => {
-      try {
-        const resp = await globalThis.fetch(
-          `https://${projId}.supabase.co/functions/v1/thrvex-games?action=multi_games&providers=${encodeURIComponent(autoProviders.join(","))}&v=2`,
-          { cache: "no-store" }
-        );
-        if (!resp.ok) { setAllGames([]); setLoading(false); return; }
-        const json = await resp.json();
-        const data: Record<string, ThrvexGame[]> = json.data || {};
-        const games: ThrvexGame[] = [];
-        for (const prov of autoProviders) {
-          if (data[prov]) games.push(...data[prov]);
-        }
-        setAllGames(games);
-      } catch (e) {
-        console.error("Failed to auto-load games:", e);
-      } finally {
-        setLoading(false);
+    try {
+      const data = getLocalThrvexGames(autoProviders);
+      const games: ThrvexGame[] = [];
+      for (const prov of autoProviders) {
+        if (data[prov]) games.push(...data[prov]);
       }
-    };
-    fetchAll();
+      setAllGames(games);
+    } catch (e) {
+      console.error("Failed to auto-load games:", e);
+      setAllGames([]);
+    } finally {
+      setLoading(false);
+    }
   }, [activeCategory]);
 
   // Load specific provider games
