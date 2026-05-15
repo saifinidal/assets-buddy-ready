@@ -6,7 +6,6 @@ import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 import defaultLogoPng from "@/assets/logo-royalbet.png";
-import defaultLogoSvg from "@/assets/logo-royalbet.svg";
 import { ApkInstallBanner } from "@/components/ApkInstallBanner";
 
 const ROLE_COLORS: Record<string, string> = {
@@ -27,9 +26,8 @@ export function Navbar() {
   const { t } = useTranslation();
   const { settings } = useSiteSettings();
   const siteName = settings.site_name || "ROYAL BET";
-  // Prefer admin-uploaded logo; otherwise default to crisp SVG (vector, sharp at any DPI).
-  const logoUrl = settings.site_logo_url || defaultLogoSvg;
-  // Detect raster logos (uploaded PNG/JPG) so we only emit srcSet for those.
+  // Prefer admin-uploaded logo; otherwise default to the RoyalBet crown PNG.
+  const logoUrl = settings.site_logo_url || defaultLogoPng;
   const isRaster = /\.(png|jpe?g|webp|avif)(\?|$)/i.test(logoUrl);
 
   const handleLogout = async () => {
