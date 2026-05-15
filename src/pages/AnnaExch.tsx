@@ -56,7 +56,7 @@ const AnnaExch = () => {
           <div className="flex items-center gap-2">
             <span className="h-2.5 w-2.5 rounded-full bg-live animate-pulse-live" />
             <h1 className="font-display text-lg font-bold uppercase tracking-wide text-foreground">
-              AnnaExch Live
+              RoyalBet Live
             </h1>
             <span className="rounded bg-secondary px-2 py-0.5 text-[10px] font-bold text-muted-foreground">
               {inPlayCount} LIVE
