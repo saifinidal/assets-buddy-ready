@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/loose";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { Check, Palette, Loader2, Eye, X, RotateCcw } from "lucide-react";

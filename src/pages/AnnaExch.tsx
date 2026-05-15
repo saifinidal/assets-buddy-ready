@@ -7,7 +7,7 @@ import { RefreshCw, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useSystemControls } from "@/hooks/useSystemControls";
 import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/loose";
 import {
   useSkyExchMatches,
   type SkySport,

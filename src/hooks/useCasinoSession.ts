@@ -1,5 +1,5 @@
 import { useCallback, useRef } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/loose";
 
 /**
  * Tracks a casino game session: balance before launch, balance after game closes,

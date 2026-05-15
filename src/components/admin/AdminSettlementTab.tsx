@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/loose";
 import { toast } from "@/hooks/use-toast";
 import { Trophy, CheckCircle, AlertTriangle, Loader2, Gavel, Users, Ban, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";

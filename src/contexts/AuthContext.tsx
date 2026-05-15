@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/loose";
 import type { User } from "@supabase/supabase-js";
 
 export type UserRole = "admin" | "super_stockist" | "stockist" | "master" | "agent" | "sub_agent" | "user";

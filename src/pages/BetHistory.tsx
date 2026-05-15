@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { BottomNav } from "@/components/BottomNav";
 import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/loose";
 import { toast } from "@/hooks/use-toast";
 import {
   TrendingUp, TrendingDown, Trophy, Target, BarChart3, Clock,

@@ -9,7 +9,7 @@ import { useMarketOddsBulk, type MarketOddsRow } from "@/hooks/useMarketOdds";
 import { useResultsEventNames } from "@/hooks/useResultsEventNames";
 import { formatMatchTimeLabel } from "@/lib/matchTime";
 import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/loose";
 import { useToast } from "@/hooks/use-toast";
 import { useSystemControls } from "@/hooks/useSystemControls";
 
