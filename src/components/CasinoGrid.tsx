@@ -1,20 +1,21 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
 import { Loader2, ArrowRight } from "lucide-react";
 import type { ThrvexGame } from "@/hooks/useThrvexGames";
 import { getLocalThrvexGamesFlat } from "@/hooks/useThrvexGames";
 import { getGameGradient } from "@/lib/gameIcons";
+import { LoginDialog } from "@/components/LoginDialog";
 
 const FEATURED_PROVIDERS = ["Spribe", "JILIGaming"];
 
 export function CasinoGrid() {
   const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
-  const { toast } = useToast();
   const [games, setGames] = useState<ThrvexGame[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [pendingGame, setPendingGame] = useState<ThrvexGame | null>(null);
 
   useEffect(() => {
     try {
@@ -30,12 +31,17 @@ export function CasinoGrid() {
     }
   }, []);
 
+  const launchGame = (game: ThrvexGame) => {
+    navigate(`/play?id=${encodeURIComponent(game.game_uid)}&name=${encodeURIComponent(game.game_name)}`);
+  };
+
   const handleGameLaunch = (game: ThrvexGame) => {
     if (!isLoggedIn) {
-      toast({ title: "Login Required", description: "Please login to play games", variant: "destructive" });
+      setPendingGame(game);
+      setLoginOpen(true);
       return;
     }
-    navigate(`/play?id=${encodeURIComponent(game.game_uid)}&name=${encodeURIComponent(game.game_name)}`);
+    launchGame(game);
   };
 
   const Header = (
