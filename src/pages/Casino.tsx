@@ -406,6 +406,19 @@ const Casino = () => {
       </div>
       )}
       <BottomNav />
+      <LoginDialog
+        open={loginOpen}
+        onOpenChange={setLoginOpen}
+        title="Login to Play"
+        description={pendingGame ? `Login to launch ${pendingGame.game_name}` : "Please login to play games"}
+        onSuccess={() => {
+          if (pendingGame) {
+            const g = pendingGame;
+            setPendingGame(null);
+            setTimeout(() => handleGameLaunch(g), 300);
+          }
+        }}
+      />
     </div>
   );
 };
