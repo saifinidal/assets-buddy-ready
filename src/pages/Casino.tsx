@@ -198,9 +198,13 @@ const Casino = () => {
     setLaunchStatuses(prev => ({ ...prev, [uid]: status }));
   }, []);
 
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [pendingGame, setPendingGame] = useState<ThrvexGame | null>(null);
+
   const handleGameLaunch = useCallback(async (game: ThrvexGame) => {
     if (!isLoggedIn || !currentUser) {
-      toast({ title: "Login Required", description: "Please login to play games", variant: "destructive" });
+      setPendingGame(game);
+      setLoginOpen(true);
       return;
     }
 
