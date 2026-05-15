@@ -19,6 +19,7 @@ export function useThrvexProviders() {
         const resp = await globalThis.fetch(
           `https://${projId}.supabase.co/functions/v1/thrvex-games?action=providers`
         );
+        if (!resp.ok) { setProviders([]); return; }
         const json = await resp.json();
         setProviders(json.data || []);
       } catch (e) {
