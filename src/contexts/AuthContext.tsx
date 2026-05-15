@@ -66,7 +66,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     if (!profile) {
       setCurrentUser(null);
-      return;
+      return null;
     }
 
     const { data: roleData } = await supabase
@@ -77,7 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const role = (roleData?.role as UserRole) || "user";
 
-    setCurrentUser({
+    const nextUser = {
       id: profile.display_id,
       profileId: profile.id,
       name: profile.name,
@@ -91,7 +91,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       share: profile.share || 0,
       commission: profile.commission || 0,
       kyc: profile.kyc || "pending",
-    });
+    };
+
+    setCurrentUser(nextUser);
+    return nextUser;
   }, []);
 
   // Listen to auth state changes
@@ -100,8 +103,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       async (event, session) => {
         if (session?.user) {
           setAuthUser(session.user);
-          // Use setTimeout to avoid Supabase auth deadlock
-          setTimeout(() => fetchProfile(session.user.id, session.user.email), 0);
+          await fetchProfile(session.user.id, session.user.email);
         } else {
           setAuthUser(null);
           setCurrentUser(null);
@@ -111,13 +113,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     );
 
     // Check existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    (async () => {
+      const { data: { session } } = await supabase.auth.getSession();
       if (session?.user) {
         setAuthUser(session.user);
-        fetchProfile(session.user.id, session.user.email);
+        await fetchProfile(session.user.id, session.user.email);
       }
       setLoading(false);
-    });
+    })();
 
     return () => subscription.unsubscribe();
   }, [fetchProfile]);
@@ -127,30 +130,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (error) return { success: false, error: error.message };
     if (!data.user) return { success: false, error: "Login failed" };
 
-    await fetchProfile(data.user.id, data.user.email);
+    setAuthUser(data.user);
+    setLoading(true);
+    const appUser = await fetchProfile(data.user.id, data.user.email);
+    setLoading(false);
 
     // Determine redirect based on role
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("id")
-      .eq("user_id", data.user.id)
-      .single();
-
-    if (profile) {
-      const { data: roleData } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", profile.id)
-        .single();
-
-      const role = roleData?.role || "user";
-      let redirectTo = "/";
-      if (role === "admin") redirectTo = "/admin";
-      else if (["super_stockist", "stockist", "master", "agent", "sub_agent"].includes(role)) redirectTo = "/agent";
-      return { success: true, redirectTo };
-    }
-
-    return { success: true, redirectTo: "/" };
+    const role = appUser?.role || "user";
+    let redirectTo = "/";
+    if (role === "admin") redirectTo = "/admin";
+    else if (["super_stockist", "stockist", "master", "agent", "sub_agent"].includes(role)) redirectTo = "/agent";
+    return { success: true, redirectTo };
   }, [fetchProfile]);
 
   const signup = useCallback(async (email: string, password: string, fullName: string, phone: string) => {
