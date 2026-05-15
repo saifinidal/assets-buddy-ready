@@ -1,4 +1,5 @@
 import { useEffect, useState, type ComponentType } from "react";
+import { AppPreloader } from "@/components/AppPreloader";
 
 export default function ClientApp() {
   const [App, setApp] = useState<ComponentType | null>(null);
@@ -15,6 +16,6 @@ export default function ClientApp() {
     };
   }, []);
 
-  if (!App) return null;
+  if (!App) return <AppPreloader />;
   return <App />;
 }
