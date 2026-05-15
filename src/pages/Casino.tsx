@@ -13,6 +13,7 @@ import { useThrvexProviders, getLocalThrvexGames, getLocalThrvexGamesFlat, type 
 import { normalizeProviderKey } from "@/lib/normalizeProvider";
 
 import { CasinoHistoryPanel } from "@/components/CasinoHistoryPanel";
+import { LoginDialog } from "@/components/LoginDialog";
 
 type LaunchStatus = "idle" | "loading" | "success" | "error";
 
