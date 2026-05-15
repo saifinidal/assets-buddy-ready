@@ -130,6 +130,7 @@ const Casino = () => {
           `https://${projId}.supabase.co/functions/v1/thrvex-games?action=multi_games&providers=${encodeURIComponent(autoProviders.join(","))}&v=2`,
           { cache: "no-store" }
         );
+        if (!resp.ok) { setAllGames([]); setLoading(false); return; }
         const json = await resp.json();
         const data: Record<string, ThrvexGame[]> = json.data || {};
         const games: ThrvexGame[] = [];
