@@ -9,7 +9,7 @@ import { useSystemControls } from "@/hooks/useSystemControls";
 import { supabase } from "@/integrations/supabase/loose";
 import { Lock, CheckCircle2, XCircle, AlertTriangle } from "lucide-react";
 import { Search, Loader2, Gamepad2, TrendingUp, Zap, LayoutGrid, History, Flame, Tv, Fish, Sparkles, Crown, Rocket, Joystick, Clock } from "lucide-react";
-import { useThrvexProviders, type ThrvexGame } from "@/hooks/useThrvexGames";
+import { useThrvexProviders, getLocalThrvexGames, getLocalThrvexGamesFlat, type ThrvexGame } from "@/hooks/useThrvexGames";
 import { normalizeProviderKey } from "@/lib/normalizeProvider";
 
 import { CasinoHistoryPanel } from "@/components/CasinoHistoryPanel";
