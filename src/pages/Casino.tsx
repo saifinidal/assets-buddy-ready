@@ -13,6 +13,7 @@ import { useThrvexProviders, getLocalThrvexGames, getLocalThrvexGamesFlat, type 
 import { normalizeProviderKey } from "@/lib/normalizeProvider";
 
 import { CasinoHistoryPanel } from "@/components/CasinoHistoryPanel";
+import { LoginDialog } from "@/components/LoginDialog";
 
 type LaunchStatus = "idle" | "loading" | "success" | "error";
 
@@ -197,9 +198,13 @@ const Casino = () => {
     setLaunchStatuses(prev => ({ ...prev, [uid]: status }));
   }, []);
 
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [pendingGame, setPendingGame] = useState<ThrvexGame | null>(null);
+
   const handleGameLaunch = useCallback(async (game: ThrvexGame) => {
     if (!isLoggedIn || !currentUser) {
-      toast({ title: "Login Required", description: "Please login to play games", variant: "destructive" });
+      setPendingGame(game);
+      setLoginOpen(true);
       return;
     }
 
@@ -401,6 +406,19 @@ const Casino = () => {
       </div>
       )}
       <BottomNav />
+      <LoginDialog
+        open={loginOpen}
+        onOpenChange={setLoginOpen}
+        title="Login to Play"
+        description={pendingGame ? `Login to launch ${pendingGame.game_name}` : "Please login to play games"}
+        onSuccess={() => {
+          if (pendingGame) {
+            const g = pendingGame;
+            setPendingGame(null);
+            setTimeout(() => handleGameLaunch(g), 300);
+          }
+        }}
+      />
     </div>
   );
 };
