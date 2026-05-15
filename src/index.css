@@ -69,28 +69,28 @@
   }
 
   .dark {
-    --background: 0 35% 5%;
-    --foreground: 40 30% 95%;
-    --card: 0 35% 9%;
-    --card-foreground: 40 30% 95%;
-    --popover: 0 35% 9%;
-    --popover-foreground: 40 30% 95%;
-    --primary: 0 80% 45%;
-    --primary-foreground: 40 50% 96%;
-    --secondary: 0 30% 13%;
-    --secondary-foreground: 40 30% 90%;
-    --muted: 0 20% 15%;
-    --muted-foreground: 40 15% 72%;
-    --accent: 45 90% 55%;
-    --accent-foreground: 0 40% 10%;
+    --background: 0 0% 100%;
+    --foreground: 0 30% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 30% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 30% 12%;
+    --primary: 0 80% 48%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 30% 96%;
+    --secondary-foreground: 0 40% 20%;
+    --muted: 0 15% 95%;
+    --muted-foreground: 0 10% 40%;
+    --accent: 0 80% 48%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 85% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 0 25% 16%;
-    --input: 0 25% 17%;
-    --ring: 0 80% 50%;
-    --navbar-bg: 0 75% 35%;
+    --border: 0 20% 90%;
+    --input: 0 20% 92%;
+    --ring: 0 80% 48%;
+    --navbar-bg: 0 78% 45%;
     --navbar-fg: 0 0% 100%;
-    --ticker-bg: 142 70% 28%;
+    --ticker-bg: 142 70% 34%;
     --ticker-fg: 0 0% 100%;
     --back: 197 80% 48%;
     --back-hover: 197 80% 40%;
@@ -98,23 +98,23 @@
     --lay-hover: 340 75% 42%;
     --live: 120 70% 38%;
     --live-red: 0 85% 48%;
-    --green-bar: 142 70% 28%;
-    --highlight: 45 90% 52%;
-    --surface: 0 30% 11%;
-    --surface-hover: 0 30% 15%;
-    --header-dark: 0 40% 6%;
-    --signup-bg: 142 70% 32%;
-    --login-bg: 45 90% 52%;
-    --login-fg: 0 40% 10%;
-    --sport-strip: 0 35% 11%;
-    --sidebar-background: 0 35% 7%;
-    --sidebar-foreground: 40 25% 88%;
-    --sidebar-primary: 0 80% 45%;
-    --sidebar-primary-foreground: 40 50% 96%;
-    --sidebar-accent: 0 30% 13%;
-    --sidebar-accent-foreground: 40 25% 88%;
-    --sidebar-border: 0 25% 16%;
-    --sidebar-ring: 45 90% 52%;
+    --green-bar: 142 70% 32%;
+    --highlight: 0 80% 48%;
+    --surface: 0 0% 98%;
+    --surface-hover: 0 20% 95%;
+    --header-dark: 0 78% 40%;
+    --signup-bg: 142 70% 35%;
+    --login-bg: 0 80% 48%;
+    --login-fg: 0 0% 100%;
+    --sport-strip: 0 30% 97%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 30% 18%;
+    --sidebar-primary: 0 80% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 30% 96%;
+    --sidebar-accent-foreground: 0 40% 20%;
+    --sidebar-border: 0 20% 90%;
+    --sidebar-ring: 0 80% 48%;
   }
 }
 
