@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
@@ -33,13 +33,18 @@ import { MaintenanceGate } from "./components/MaintenanceGate";
 
 const queryClient = new QueryClient();
 
+const initialEntry =
+  typeof window !== "undefined"
+    ? `${window.location.pathname}${window.location.search}${window.location.hash}`
+    : "/";
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <MemoryRouter initialEntries={[initialEntry]}>
         <AuthProvider>
           <SpribeBalanceSync />
           <ThemeApplier />
@@ -86,7 +91,7 @@ const App = () => (
           </Routes>
           </MaintenanceGate>
         </AuthProvider>
-      </BrowserRouter>
+      </MemoryRouter>
     </TooltipProvider>
     </ThemeProvider>
   </QueryClientProvider>
