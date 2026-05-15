@@ -19,8 +19,8 @@ export function useAuditLog() {
         const { error } = await supabase.rpc("log_admin_action", {
           _action: action,
           _summary: summary,
-          _target_type: opts?.targetType ?? null,
-          _target_id: opts?.targetId ? String(opts.targetId) : null,
+          _target_type: opts?.targetType ?? undefined,
+          _target_id: opts?.targetId ? String(opts.targetId) : undefined,
           _metadata: (opts?.metadata as any) ?? null,
         });
         if (error) console.warn("[audit] log failed:", error.message);
