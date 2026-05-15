@@ -1,0 +1,339 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Diamond Exchange / Anna Exchange inspired dark theme */
+    --background: 220 25% 8%;
+    --foreground: 210 20% 92%;
+
+    --card: 220 22% 12%;
+    --card-foreground: 210 20% 92%;
+
+    --popover: 220 22% 12%;
+    --popover-foreground: 210 20% 92%;
+
+    --primary: 45 100% 50%;
+    --primary-foreground: 220 25% 8%;
+
+    --secondary: 220 18% 16%;
+    --secondary-foreground: 210 20% 80%;
+
+    --muted: 220 18% 18%;
+    --muted-foreground: 210 15% 70%;
+
+    --accent: 45 100% 50%;
+    --accent-foreground: 220 25% 8%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 18% 18%;
+    --input: 220 18% 20%;
+    --ring: 45 100% 50%;
+
+    --radius: 0.375rem;
+
+    /* Exchange specific tokens */
+    --navbar-bg: 220 30% 10%;
+    --navbar-fg: 0 0% 100%;
+    --ticker-bg: 142 70% 32%;
+    --ticker-fg: 0 0% 100%;
+    --back: 197 80% 52%;
+    --back-hover: 197 80% 44%;
+    --lay: 340 75% 55%;
+    --lay-hover: 340 75% 46%;
+    --live: 120 70% 42%;
+    --live-red: 0 85% 52%;
+    --green-bar: 142 70% 30%;
+    --highlight: 45 100% 50%;
+    --surface: 220 22% 14%;
+    --surface-hover: 220 22% 18%;
+    --header-dark: 220 30% 6%;
+    --signup-bg: 142 70% 35%;
+    --login-bg: 45 100% 50%;
+    --login-fg: 220 25% 8%;
+    --sport-strip: 220 25% 14%;
+
+    --sidebar-background: 220 25% 9%;
+    --sidebar-foreground: 210 20% 80%;
+    --sidebar-primary: 45 100% 50%;
+    --sidebar-primary-foreground: 220 25% 8%;
+    --sidebar-accent: 220 18% 16%;
+    --sidebar-accent-foreground: 210 20% 80%;
+    --sidebar-border: 220 18% 18%;
+    --sidebar-ring: 45 100% 50%;
+  }
+
+  .dark {
+    --background: 220 25% 6%;
+    --foreground: 210 20% 93%;
+    --card: 220 22% 10%;
+    --card-foreground: 210 20% 93%;
+    --popover: 220 22% 10%;
+    --popover-foreground: 210 20% 93%;
+    --primary: 45 100% 50%;
+    --primary-foreground: 220 25% 8%;
+    --secondary: 220 18% 14%;
+    --secondary-foreground: 210 20% 82%;
+    --muted: 220 18% 15%;
+    --muted-foreground: 210 15% 68%;
+    --accent: 45 100% 50%;
+    --accent-foreground: 220 25% 8%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 18% 15%;
+    --input: 220 18% 18%;
+    --ring: 45 100% 50%;
+    --navbar-bg: 220 30% 8%;
+    --navbar-fg: 0 0% 100%;
+    --ticker-bg: 142 70% 28%;
+    --ticker-fg: 0 0% 100%;
+    --back: 197 80% 48%;
+    --back-hover: 197 80% 40%;
+    --lay: 340 75% 50%;
+    --lay-hover: 340 75% 42%;
+    --live: 120 70% 38%;
+    --live-red: 0 85% 48%;
+    --green-bar: 142 70% 26%;
+    --highlight: 45 100% 48%;
+    --surface: 220 22% 11%;
+    --surface-hover: 220 22% 15%;
+    --header-dark: 220 30% 4%;
+    --signup-bg: 142 70% 30%;
+    --login-bg: 45 100% 48%;
+    --login-fg: 220 25% 8%;
+    --sport-strip: 220 25% 11%;
+    --sidebar-background: 220 25% 7%;
+    --sidebar-foreground: 210 20% 82%;
+    --sidebar-primary: 45 100% 48%;
+    --sidebar-primary-foreground: 220 25% 8%;
+    --sidebar-accent: 220 18% 14%;
+    --sidebar-accent-foreground: 210 20% 82%;
+    --sidebar-border: 220 18% 15%;
+    --sidebar-ring: 45 100% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  /* Global overflow & fit guards — prevent any horizontal scroll across the app */
+  html, body, #root {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    /* Safe area insets for notched devices (iPhone X+, modern Android) */
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Constrain media so it never blows out a flex/grid child */
+  img, video, iframe, svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  iframe, video {
+    display: block;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Oswald', sans-serif;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  /* Long words / URLs in paragraphs should wrap, not overflow */
+  p, span, a, button, div {
+    overflow-wrap: break-word;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .bg-navbar {
+    background-color: hsl(var(--navbar-bg));
+    color: hsl(var(--navbar-fg, var(--foreground)));
+  }
+
+  .text-navbar-fg {
+    color: hsl(var(--navbar-fg, var(--foreground)));
+  }
+
+  /* Theme-aware logo styling — shadow & ring auto-tune to navbar lightness
+     via --logo-shadow / --logo-ring set by ThemeApplier. */
+  .logo-themed {
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.55));
+  }
+  .logo-themed-wrap {
+    border-radius: 9999px;
+    box-shadow:
+      0 0 0 1px var(--logo-ring, rgba(255, 255, 255, 0.2)),
+      var(--logo-shadow, 0 1px 3px rgba(0, 0, 0, 0.5));
+    transition: box-shadow 0.2s ease;
+  }
+
+  .bg-ticker {
+    background-color: hsl(var(--ticker-bg));
+    color: hsl(var(--ticker-fg, 0 0% 100%));
+  }
+
+  .bg-green-bar {
+    background-color: hsl(var(--green-bar));
+  }
+
+  .bg-signup {
+    background-color: hsl(var(--signup-bg));
+  }
+
+  .bg-login {
+    background-color: hsl(var(--login-bg));
+    color: hsl(var(--login-fg));
+  }
+
+  .bg-sport-strip {
+    background-color: hsl(var(--sport-strip));
+  }
+
+  .text-ticker {
+    color: hsl(var(--ticker-fg));
+  }
+
+  .animate-pulse-live {
+    animation: pulse-live 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse-live {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+  }
+
+  .gradient-hero {
+    background: linear-gradient(135deg, hsl(220 30% 6%) 0%, hsl(220 25% 12%) 50%, hsl(45 80% 15%) 100%);
+  }
+
+  .gold-gradient {
+    background: linear-gradient(135deg, hsl(45 100% 50%) 0%, hsl(38 100% 42%) 100%);
+  }
+
+  .navy-gradient {
+    background: linear-gradient(180deg, hsl(220 30% 12%) 0%, hsl(220 25% 8%) 100%);
+  }
+
+  /* Smooth safe-area transitions */
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /*
+   * Touch-target expander: visually compact buttons that meet the 44px
+   * minimum recommended by Apple HIG / Material guidelines.
+   * Works via an invisible ::before overlay — the visual size stays unchanged
+   * but the tappable area expands to at least 44×44 px.
+   * Usage: add class "touch-target" to any small interactive element.
+   */
+  @media (pointer: coarse) {
+    .touch-target {
+      position: relative;
+    }
+    .touch-target::before {
+      content: '';
+      position: absolute;
+      /* Expand outward so that the total box is at least 44×44 */
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 44px;
+      min-height: 44px;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  /* For odds grid rows: expand tap height while keeping visual row compact.
+   * The row itself stays the same size; the inner button tap zone extends
+   * via the ::before pseudo-element above.
+   * On non-touch devices, do nothing (desktop users have pointer precision). */
+  @media (pointer: coarse) {
+    .odds-row {
+      /* Give each row a bit more breathing room on touch */
+      padding-top: 4px;
+      padding-bottom: 4px;
+    }
+  }
+
+  /* ── Landscape mode adjustments ── */
+  /* Mobile landscape: max-height is small, reduce chrome to maximise content */
+  @media (orientation: landscape) and (max-height: 500px) {
+    /* Compact navbar */
+    .landscape-nav {
+      height: 40px !important;
+      min-height: 40px !important;
+      max-height: 40px !important;
+    }
+
+    /* Compact bottom nav — horizontal row, smaller icons */
+    .landscape-bottom-nav {
+      padding-top: 2px;
+      padding-bottom: 2px;
+    }
+    .landscape-bottom-nav .bottom-nav-item {
+      flex-direction: row;
+      gap: 4px;
+      min-height: 32px;
+      padding: 2px 8px;
+    }
+    .landscape-bottom-nav .bottom-nav-icon {
+      width: 16px;
+      height: 16px;
+    }
+    .landscape-bottom-nav .bottom-nav-label {
+      font-size: 9px;
+    }
+
+    /* Bet slip: side-by-side layout in landscape */
+    .landscape-betslip {
+      max-height: 45vh;
+      overflow-y: auto;
+    }
+  }
+}
