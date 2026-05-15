@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import royalBetBanner from "@/assets/royal-bet-banner.jpg";
 import bannerCricket from "@/assets/banner-cricket.jpg";
 import bannerFootball from "@/assets/banner-football.jpg";
 import casinoBanner from "@/assets/casino-banner.jpg";
 
 const slides = [
+  { src: royalBetBanner, alt: "Royal Bet Live Casino" },
   { src: bannerCricket, alt: "Cricket Betting" },
   { src: bannerFootball, alt: "Football Betting" },
   { src: casinoBanner, alt: "Casino Games" },
