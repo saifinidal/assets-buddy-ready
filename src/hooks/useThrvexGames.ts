@@ -83,6 +83,7 @@ export function useThrvexMultiGames(providers: string[]) {
         const resp = await globalThis.fetch(
           `https://${projId}.supabase.co/functions/v1/thrvex-games?action=multi_games&providers=${encodeURIComponent(providers.join(","))}`
         );
+        if (!resp.ok) { setGamesByProvider({}); return; }
         const json = await resp.json();
         setGamesByProvider(json.data || {});
       } catch (e) {
