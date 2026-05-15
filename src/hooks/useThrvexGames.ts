@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
+import { ALL_GAMES, type CasinoGame } from "@/data/casinoGames";
 
 export interface ThrvexGame {
   id: string;
@@ -8,92 +9,62 @@ export interface ThrvexGame {
   image?: string | null;
 }
 
+// Map local provider name -> name expected by Casino page (ALLOWED_PROVIDERS)
+const PROVIDER_NAME_MAP: Record<string, string> = {
+  JILI: "JILIGaming",
+  JDB: "JDBGaming",
+};
+
+function adapt(g: CasinoGame): ThrvexGame {
+  const provider_name = PROVIDER_NAME_MAP[g.provider] || g.provider;
+  return {
+    id: g.gameId,
+    game_uid: g.gameId,
+    provider_name,
+    game_name: g.name,
+    image: g.img,
+  };
+}
+
+const ADAPTED: ThrvexGame[] = ALL_GAMES.map(adapt);
+
+const ALL_PROVIDERS: string[] = Array.from(
+  new Set(ADAPTED.map((g) => g.provider_name))
+);
+
 export function useThrvexProviders() {
-  const [providers, setProviders] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const projId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
-        const resp = await globalThis.fetch(
-          `https://${projId}.supabase.co/functions/v1/thrvex-games?action=providers`
-        );
-        if (!resp.ok) { setProviders([]); return; }
-        const json = await resp.json();
-        setProviders(json.data || []);
-      } catch (e) {
-        console.error("Failed to fetch providers:", e);
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
-  }, []);
-
-  return { providers, loading };
+  return { providers: ALL_PROVIDERS, loading: false };
 }
 
 export function useThrvexGames(provider: string | null) {
-  const [games, setGames] = useState<ThrvexGame[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (!provider) {
-      setGames([]);
-      return;
-    }
-
-    const load = async () => {
-      setLoading(true);
-      try {
-        const projId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
-        const resp = await globalThis.fetch(
-          `https://${projId}.supabase.co/functions/v1/thrvex-games?action=games&provider=${encodeURIComponent(provider)}`
-        );
-        if (!resp.ok) { setGames([]); return; }
-        const json = await resp.json();
-        setGames(json.data || []);
-      } catch (e) {
-        console.error("Failed to fetch games:", e);
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
-  }, [provider]);
-
-  return { games, loading };
+  const games = useMemo(
+    () => (provider ? ADAPTED.filter((g) => g.provider_name === provider) : []),
+    [provider]
+  );
+  return { games, loading: false };
 }
 
 export function useThrvexMultiGames(providers: string[]) {
-  const [gamesByProvider, setGamesByProvider] = useState<Record<string, ThrvexGame[]>>({});
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (providers.length === 0) {
-      setGamesByProvider({});
-      return;
+  const gamesByProvider = useMemo(() => {
+    const map: Record<string, ThrvexGame[]> = {};
+    for (const p of providers) {
+      map[p] = ADAPTED.filter((g) => g.provider_name === p);
     }
-
-    const load = async () => {
-      setLoading(true);
-      try {
-        const projId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
-        const resp = await globalThis.fetch(
-          `https://${projId}.supabase.co/functions/v1/thrvex-games?action=multi_games&providers=${encodeURIComponent(providers.join(","))}`
-        );
-        if (!resp.ok) { setGamesByProvider({}); return; }
-        const json = await resp.json();
-        setGamesByProvider(json.data || {});
-      } catch (e) {
-        console.error("Failed to fetch multi games:", e);
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
+    return map;
   }, [providers.join(",")]);
+  return { gamesByProvider, loading: false };
+}
 
-  return { gamesByProvider, loading };
+// Helper used by components that fetch directly from the edge function URL.
+// Exposed so we can swap in local data without changing many callers.
+export function getLocalThrvexGames(providers: string[]): Record<string, ThrvexGame[]> {
+  const map: Record<string, ThrvexGame[]> = {};
+  for (const p of providers) {
+    map[p] = ADAPTED.filter((g) => g.provider_name === p);
+  }
+  return map;
+}
+
+export function getLocalThrvexGamesFlat(provider: string): ThrvexGame[] {
+  return ADAPTED.filter((g) => g.provider_name === provider);
 }
