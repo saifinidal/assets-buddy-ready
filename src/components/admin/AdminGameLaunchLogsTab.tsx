@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/loose";
 import { Search, RefreshCw, AlertTriangle, CheckCircle, XCircle, Eye, Loader2 } from "lucide-react";

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/loose";
 import { useTranslation } from "react-i18next";

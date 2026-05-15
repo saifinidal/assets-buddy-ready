@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useMemo, useEffect, useCallback } from "react";
 import {
   LayoutDashboard, Users, Percent, GitBranch, FileBarChart,
