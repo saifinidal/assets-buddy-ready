@@ -7,7 +7,7 @@ export function Footer() {
   const siteName = settings.site_name || "ROYAL BET";
 
   return (
-    <footer className="sticky bottom-0 z-40 border-t border-border/50 bg-navbar py-6 pb-28 md:pb-8 shadow-[0_-4px_20px_rgba(0,0,0,0.3)]">
+    <footer className="border-t border-border/50 bg-navbar py-6 pb-28 md:pb-8">
       <div className="px-6 max-w-4xl mx-auto space-y-4">
         {/* Logo + 18+ Badge */}
         <div className="flex items-center justify-center gap-3">
