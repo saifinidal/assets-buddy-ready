@@ -6,39 +6,39 @@
 
 @layer base {
   :root {
-    /* Diamond Exchange / Anna Exchange inspired dark theme */
-    --background: 220 25% 8%;
-    --foreground: 210 20% 92%;
+    /* RoyalBets-inspired royal red + gold theme */
+    --background: 0 30% 6%;
+    --foreground: 40 30% 95%;
 
-    --card: 220 22% 12%;
-    --card-foreground: 210 20% 92%;
+    --card: 0 35% 10%;
+    --card-foreground: 40 30% 95%;
 
-    --popover: 220 22% 12%;
-    --popover-foreground: 210 20% 92%;
+    --popover: 0 35% 10%;
+    --popover-foreground: 40 30% 95%;
 
-    --primary: 45 100% 50%;
-    --primary-foreground: 220 25% 8%;
+    --primary: 0 80% 45%;
+    --primary-foreground: 40 50% 96%;
 
-    --secondary: 220 18% 16%;
-    --secondary-foreground: 210 20% 80%;
+    --secondary: 0 30% 14%;
+    --secondary-foreground: 40 30% 90%;
 
-    --muted: 220 18% 18%;
-    --muted-foreground: 210 15% 70%;
+    --muted: 0 20% 16%;
+    --muted-foreground: 40 15% 75%;
 
-    --accent: 45 100% 50%;
-    --accent-foreground: 220 25% 8%;
+    --accent: 45 90% 55%;
+    --accent-foreground: 0 40% 10%;
 
-    --destructive: 0 72% 51%;
+    --destructive: 0 85% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 18% 18%;
-    --input: 220 18% 20%;
-    --ring: 45 100% 50%;
+    --border: 0 25% 18%;
+    --input: 0 25% 18%;
+    --ring: 0 80% 50%;
 
     --radius: 0.375rem;
 
-    /* Exchange specific tokens */
-    --navbar-bg: 220 30% 10%;
+    /* Exchange specific tokens — royal red navbar, gold highlights */
+    --navbar-bg: 0 75% 38%;
     --navbar-fg: 0 0% 100%;
     --ticker-bg: 142 70% 32%;
     --ticker-fg: 0 0% 100%;
@@ -48,47 +48,47 @@
     --lay-hover: 340 75% 46%;
     --live: 120 70% 42%;
     --live-red: 0 85% 52%;
-    --green-bar: 142 70% 30%;
-    --highlight: 45 100% 50%;
-    --surface: 220 22% 14%;
-    --surface-hover: 220 22% 18%;
-    --header-dark: 220 30% 6%;
-    --signup-bg: 142 70% 35%;
-    --login-bg: 45 100% 50%;
-    --login-fg: 220 25% 8%;
-    --sport-strip: 220 25% 14%;
+    --green-bar: 142 70% 32%;
+    --highlight: 45 90% 55%;
+    --surface: 0 30% 12%;
+    --surface-hover: 0 30% 16%;
+    --header-dark: 0 40% 8%;
+    --signup-bg: 142 70% 38%;
+    --login-bg: 45 90% 55%;
+    --login-fg: 0 40% 10%;
+    --sport-strip: 0 35% 12%;
 
-    --sidebar-background: 220 25% 9%;
-    --sidebar-foreground: 210 20% 80%;
-    --sidebar-primary: 45 100% 50%;
-    --sidebar-primary-foreground: 220 25% 8%;
-    --sidebar-accent: 220 18% 16%;
-    --sidebar-accent-foreground: 210 20% 80%;
-    --sidebar-border: 220 18% 18%;
-    --sidebar-ring: 45 100% 50%;
+    --sidebar-background: 0 35% 9%;
+    --sidebar-foreground: 40 25% 88%;
+    --sidebar-primary: 0 80% 45%;
+    --sidebar-primary-foreground: 40 50% 96%;
+    --sidebar-accent: 0 30% 14%;
+    --sidebar-accent-foreground: 40 25% 88%;
+    --sidebar-border: 0 25% 18%;
+    --sidebar-ring: 45 90% 55%;
   }
 
   .dark {
-    --background: 220 25% 6%;
-    --foreground: 210 20% 93%;
-    --card: 220 22% 10%;
-    --card-foreground: 210 20% 93%;
-    --popover: 220 22% 10%;
-    --popover-foreground: 210 20% 93%;
-    --primary: 45 100% 50%;
-    --primary-foreground: 220 25% 8%;
-    --secondary: 220 18% 14%;
-    --secondary-foreground: 210 20% 82%;
-    --muted: 220 18% 15%;
-    --muted-foreground: 210 15% 68%;
-    --accent: 45 100% 50%;
-    --accent-foreground: 220 25% 8%;
-    --destructive: 0 72% 51%;
+    --background: 0 35% 5%;
+    --foreground: 40 30% 95%;
+    --card: 0 35% 9%;
+    --card-foreground: 40 30% 95%;
+    --popover: 0 35% 9%;
+    --popover-foreground: 40 30% 95%;
+    --primary: 0 80% 45%;
+    --primary-foreground: 40 50% 96%;
+    --secondary: 0 30% 13%;
+    --secondary-foreground: 40 30% 90%;
+    --muted: 0 20% 15%;
+    --muted-foreground: 40 15% 72%;
+    --accent: 45 90% 55%;
+    --accent-foreground: 0 40% 10%;
+    --destructive: 0 85% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 220 18% 15%;
-    --input: 220 18% 18%;
-    --ring: 45 100% 50%;
-    --navbar-bg: 220 30% 8%;
+    --border: 0 25% 16%;
+    --input: 0 25% 17%;
+    --ring: 0 80% 50%;
+    --navbar-bg: 0 75% 35%;
     --navbar-fg: 0 0% 100%;
     --ticker-bg: 142 70% 28%;
     --ticker-fg: 0 0% 100%;
@@ -98,23 +98,23 @@
     --lay-hover: 340 75% 42%;
     --live: 120 70% 38%;
     --live-red: 0 85% 48%;
-    --green-bar: 142 70% 26%;
-    --highlight: 45 100% 48%;
-    --surface: 220 22% 11%;
-    --surface-hover: 220 22% 15%;
-    --header-dark: 220 30% 4%;
-    --signup-bg: 142 70% 30%;
-    --login-bg: 45 100% 48%;
-    --login-fg: 220 25% 8%;
-    --sport-strip: 220 25% 11%;
-    --sidebar-background: 220 25% 7%;
-    --sidebar-foreground: 210 20% 82%;
-    --sidebar-primary: 45 100% 48%;
-    --sidebar-primary-foreground: 220 25% 8%;
-    --sidebar-accent: 220 18% 14%;
-    --sidebar-accent-foreground: 210 20% 82%;
-    --sidebar-border: 220 18% 15%;
-    --sidebar-ring: 45 100% 48%;
+    --green-bar: 142 70% 28%;
+    --highlight: 45 90% 52%;
+    --surface: 0 30% 11%;
+    --surface-hover: 0 30% 15%;
+    --header-dark: 0 40% 6%;
+    --signup-bg: 142 70% 32%;
+    --login-bg: 45 90% 52%;
+    --login-fg: 0 40% 10%;
+    --sport-strip: 0 35% 11%;
+    --sidebar-background: 0 35% 7%;
+    --sidebar-foreground: 40 25% 88%;
+    --sidebar-primary: 0 80% 45%;
+    --sidebar-primary-foreground: 40 50% 96%;
+    --sidebar-accent: 0 30% 13%;
+    --sidebar-accent-foreground: 40 25% 88%;
+    --sidebar-border: 0 25% 16%;
+    --sidebar-ring: 45 90% 52%;
   }
 }
 
@@ -248,15 +248,15 @@
   }
 
   .gradient-hero {
-    background: linear-gradient(135deg, hsl(220 30% 6%) 0%, hsl(220 25% 12%) 50%, hsl(45 80% 15%) 100%);
+    background: linear-gradient(135deg, hsl(0 40% 8%) 0%, hsl(0 60% 18%) 50%, hsl(45 80% 25%) 100%);
   }
 
   .gold-gradient {
-    background: linear-gradient(135deg, hsl(45 100% 50%) 0%, hsl(38 100% 42%) 100%);
+    background: linear-gradient(135deg, hsl(45 90% 55%) 0%, hsl(38 100% 45%) 100%);
   }
 
   .navy-gradient {
-    background: linear-gradient(180deg, hsl(220 30% 12%) 0%, hsl(220 25% 8%) 100%);
+    background: linear-gradient(180deg, hsl(0 60% 35%) 0%, hsl(0 70% 25%) 100%);
   }
 
   /* Smooth safe-area transitions */
