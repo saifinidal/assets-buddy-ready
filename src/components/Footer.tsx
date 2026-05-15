@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
+import logo from "@/assets/logo-royalbet.png";
 
 export function Footer() {
   const { settings } = useSiteSettings();
@@ -10,8 +11,9 @@ export function Footer() {
       <div className="px-6 max-w-4xl mx-auto space-y-4">
         {/* Logo + 18+ Badge */}
         <div className="flex items-center justify-center gap-3">
-          <span className="font-display text-sm font-bold text-primary tracking-wider">{siteName}</span>
-          <Link to="/responsible-gaming" className="touch-target flex items-center justify-center h-8 w-8 rounded-full bg-destructive/15 text-destructive text-[10px] font-black border border-destructive/30 hover:bg-destructive/25 transition-colors" title="18+ Only">
+          <img src={logo} alt="RoyalBet Logo" className="h-8 w-auto" />
+          <span className="font-display text-sm font-bold text-white tracking-wider">{siteName}</span>
+          <Link to="/responsible-gaming" className="touch-target flex items-center justify-center h-8 w-8 rounded-full bg-red-600/20 text-red-500 text-[10px] font-black border border-red-500/40 hover:bg-red-600/30 transition-colors" title="18+ Only">
             18+
           </Link>
         </div>
