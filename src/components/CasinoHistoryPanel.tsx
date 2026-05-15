@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/loose";
 import {
   TrendingUp, TrendingDown, Loader2, RefreshCw, Clock, History as HistoryIcon,
 } from "lucide-react";

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Wallet, Plus, ArrowDownToLine, RefreshCw, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/loose";
 import { useCurrency } from "@/hooks/useSystemControls";
 
 export function HomeBalanceCard() {

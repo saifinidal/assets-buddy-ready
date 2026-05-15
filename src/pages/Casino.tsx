@@ -5,7 +5,7 @@ import { BottomNav } from "@/components/BottomNav";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useSystemControls } from "@/hooks/useSystemControls";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/loose";
 import { Lock, CheckCircle2, XCircle, AlertTriangle } from "lucide-react";
 import { Search, Loader2, Gamepad2, TrendingUp, Zap, LayoutGrid, History, Flame, Tv, Fish, Sparkles, Crown, Rocket, Joystick, Clock } from "lucide-react";
 import { useThrvexProviders, type ThrvexGame } from "@/hooks/useThrvexGames";

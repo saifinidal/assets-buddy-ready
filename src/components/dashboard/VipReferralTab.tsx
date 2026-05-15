@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Crown, Copy, Share2, Users, Wallet, TrendingUp, Gift, CheckCircle, Star, Zap, Shield, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/loose";
 import { useToast } from "@/hooks/use-toast";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 

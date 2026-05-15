@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/loose";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { useSkyExchMatches, type SkySport } from "@/hooks/useSkyExchMatches";

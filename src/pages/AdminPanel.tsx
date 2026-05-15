@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { useTheme } from "@/contexts/ThemeContext"; // kept for potential use
 import { useAuth, ROLE_LABELS, ROLE_HIERARCHY, UserRole } from "@/contexts/AuthContext";
 import { useProfiles, useDeposits, useWithdrawals, useAgentRequests, type ProfileWithRole } from "@/hooks/useSupabaseData";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/loose";
 import {
   LayoutDashboard, Users, ArrowDownCircle, ArrowUpCircle, Trophy,
   Settings, LogOut, ChevronLeft, ChevronRight, Search, Bell,

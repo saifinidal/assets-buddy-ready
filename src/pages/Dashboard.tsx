@@ -9,7 +9,7 @@ import { KycTab } from "@/components/dashboard/KycTab";
 import { VipReferralTab } from "@/components/dashboard/VipReferralTab";
 import { Wallet, History, User, FileText, CheckCircle, Shield as ShieldIcon, Crown, Gift } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/loose";
 import { Navigate } from "react-router-dom";
 
 const tabs = [

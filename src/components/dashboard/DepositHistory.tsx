@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/loose";
 import { ArrowLeft, ArrowDownCircle, IndianRupee, Landmark, Bitcoin, Search, Loader2, Copy, CheckCircle, Clock, FileText, Hash, Wallet, Network, Receipt } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";

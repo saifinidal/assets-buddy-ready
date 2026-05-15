@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { useTheme } from "@/contexts/ThemeContext";
 import { providers as allProviders } from "@/data/casinoGames";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/loose";
 import { ThemePresetPicker } from "./ThemePresetPicker";
 
 type SettingsCard = {

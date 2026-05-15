@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/loose";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSpribeBalanceSync } from "@/hooks/useSpribeBalanceSync";
 import { useCasinoSession } from "@/hooks/useCasinoSession";

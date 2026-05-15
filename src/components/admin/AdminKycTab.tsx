@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Shield, CheckCircle, XCircle, Clock, Eye, Search, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/loose";
 import { toast } from "@/hooks/use-toast";
 
 interface KycSubmission {
