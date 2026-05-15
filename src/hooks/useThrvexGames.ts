@@ -19,6 +19,7 @@ export function useThrvexProviders() {
         const resp = await globalThis.fetch(
           `https://${projId}.supabase.co/functions/v1/thrvex-games?action=providers`
         );
+        if (!resp.ok) { setProviders([]); return; }
         const json = await resp.json();
         setProviders(json.data || []);
       } catch (e) {
@@ -50,6 +51,7 @@ export function useThrvexGames(provider: string | null) {
         const resp = await globalThis.fetch(
           `https://${projId}.supabase.co/functions/v1/thrvex-games?action=games&provider=${encodeURIComponent(provider)}`
         );
+        if (!resp.ok) { setGames([]); return; }
         const json = await resp.json();
         setGames(json.data || []);
       } catch (e) {
@@ -81,6 +83,7 @@ export function useThrvexMultiGames(providers: string[]) {
         const resp = await globalThis.fetch(
           `https://${projId}.supabase.co/functions/v1/thrvex-games?action=multi_games&providers=${encodeURIComponent(providers.join(","))}`
         );
+        if (!resp.ok) { setGamesByProvider({}); return; }
         const json = await resp.json();
         setGamesByProvider(json.data || {});
       } catch (e) {
