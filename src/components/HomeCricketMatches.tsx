@@ -107,27 +107,27 @@ export function HomeCricketMatches() {
                 </p>
                 <ChevronRight className="hidden md:block h-3.5 w-3.5 text-muted-foreground shrink-0" />
               </div>
-              <div className="mt-1.5 flex items-center gap-1 overflow-x-auto scrollbar-hide -mx-1 px-1 odds-row">
-                <button className="touch-target h-8 min-w-[44px] flex-1 max-w-[60px] rounded-sm bg-back/15 text-[10px] font-bold text-back hover:bg-back/25 active:bg-back/35 transition-colors">
+              <div className="mt-1.5 grid grid-flow-col auto-cols-fr gap-1 odds-row">
+                <button className="touch-target h-8 rounded-sm bg-back/15 text-[10px] font-bold text-back hover:bg-back/25 active:bg-back/35 transition-colors">
                   {odds.t1Back}
                 </button>
-                <button className="touch-target h-8 min-w-[44px] flex-1 max-w-[60px] rounded-sm bg-lay/15 text-[10px] font-bold text-lay hover:bg-lay/25 active:bg-lay/35 transition-colors">
+                <button className="touch-target h-8 rounded-sm bg-lay/15 text-[10px] font-bold text-lay hover:bg-lay/25 active:bg-lay/35 transition-colors">
                   {odds.t1Lay}
                 </button>
                 {odds.drawBack && odds.drawLay && (
                   <>
-                    <button className="touch-target h-8 min-w-[44px] flex-1 max-w-[60px] rounded-sm bg-back/15 text-[10px] font-bold text-back hover:bg-back/25 active:bg-back/35 transition-colors">
+                    <button className="touch-target h-8 rounded-sm bg-back/15 text-[10px] font-bold text-back hover:bg-back/25 active:bg-back/35 transition-colors">
                       {odds.drawBack}
                     </button>
-                    <button className="touch-target h-8 min-w-[44px] flex-1 max-w-[60px] rounded-sm bg-lay/15 text-[10px] font-bold text-lay hover:bg-lay/25 active:bg-lay/35 transition-colors">
+                    <button className="touch-target h-8 rounded-sm bg-lay/15 text-[10px] font-bold text-lay hover:bg-lay/25 active:bg-lay/35 transition-colors">
                       {odds.drawLay}
                     </button>
                   </>
                 )}
-                <button className="touch-target h-8 min-w-[44px] flex-1 max-w-[60px] rounded-sm bg-back/15 text-[10px] font-bold text-back hover:bg-back/25 active:bg-back/35 transition-colors">
+                <button className="touch-target h-8 rounded-sm bg-back/15 text-[10px] font-bold text-back hover:bg-back/25 active:bg-back/35 transition-colors">
                   {odds.t2Back}
                 </button>
-                <button className="touch-target h-8 min-w-[44px] flex-1 max-w-[60px] rounded-sm bg-lay/15 text-[10px] font-bold text-lay hover:bg-lay/25 active:bg-lay/35 transition-colors">
+                <button className="touch-target h-8 rounded-sm bg-lay/15 text-[10px] font-bold text-lay hover:bg-lay/25 active:bg-lay/35 transition-colors">
                   {odds.t2Lay}
                 </button>
               </div>
