@@ -31,9 +31,15 @@ export function HeroBanner() {
             src={slide.src}
             alt={slide.alt}
             onError={(e) => {
-              // If a banner asset fails or is a tiny placeholder, fall back to the RoyalBet banner
               const img = e.currentTarget;
               if (img.src !== royalBetBanner) img.src = royalBetBanner;
+            }}
+            onLoad={(e) => {
+              // If asset is a tiny placeholder, swap to the RoyalBet banner
+              const img = e.currentTarget;
+              if ((img.naturalWidth < 200 || img.naturalHeight < 100) && !img.src.endsWith("royal-bet-banner.jpg")) {
+                img.src = royalBetBanner;
+              }
             }}
             className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
               idx === current ? "opacity-100" : "opacity-0"
