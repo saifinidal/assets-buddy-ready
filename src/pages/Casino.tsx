@@ -9,7 +9,7 @@ import { useSystemControls } from "@/hooks/useSystemControls";
 import { supabase } from "@/integrations/supabase/loose";
 import { Lock, CheckCircle2, XCircle, AlertTriangle } from "lucide-react";
 import { Search, Loader2, Gamepad2, TrendingUp, Zap, LayoutGrid, History, Flame, Tv, Fish, Sparkles, Crown, Rocket, Joystick, Clock } from "lucide-react";
-import { useThrvexProviders, type ThrvexGame } from "@/hooks/useThrvexGames";
+import { useThrvexProviders, getLocalThrvexGames, getLocalThrvexGamesFlat, type ThrvexGame } from "@/hooks/useThrvexGames";
 import { normalizeProviderKey } from "@/lib/normalizeProvider";
 
 import { CasinoHistoryPanel } from "@/components/CasinoHistoryPanel";
@@ -123,28 +123,19 @@ const Casino = () => {
     setLoading(true);
     setActiveProvider(null);
 
-    const projId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
-    const fetchAll = async () => {
-      try {
-        const resp = await globalThis.fetch(
-          `https://${projId}.supabase.co/functions/v1/thrvex-games?action=multi_games&providers=${encodeURIComponent(autoProviders.join(","))}&v=2`,
-          { cache: "no-store" }
-        );
-        if (!resp.ok) { setAllGames([]); setLoading(false); return; }
-        const json = await resp.json();
-        const data: Record<string, ThrvexGame[]> = json.data || {};
-        const games: ThrvexGame[] = [];
-        for (const prov of autoProviders) {
-          if (data[prov]) games.push(...data[prov]);
-        }
-        setAllGames(games);
-      } catch (e) {
-        console.error("Failed to auto-load games:", e);
-      } finally {
-        setLoading(false);
+    try {
+      const data = getLocalThrvexGames(autoProviders);
+      const games: ThrvexGame[] = [];
+      for (const prov of autoProviders) {
+        if (data[prov]) games.push(...data[prov]);
       }
-    };
-    fetchAll();
+      setAllGames(games);
+    } catch (e) {
+      console.error("Failed to auto-load games:", e);
+      setAllGames([]);
+    } finally {
+      setLoading(false);
+    }
   }, [activeCategory]);
 
   // Load specific provider games
@@ -154,15 +145,13 @@ const Casino = () => {
       return;
     }
     setProviderLoading(true);
-    const projId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
-    globalThis.fetch(
-      `https://${projId}.supabase.co/functions/v1/thrvex-games?action=games&provider=${encodeURIComponent(activeProvider)}&v=2`,
-      { cache: "no-store" }
-    )
-      .then(r => r.ok ? r.json() : { data: [] })
-      .then(json => setProviderGames(json.data || []))
-      .catch(() => setProviderGames([]))
-      .finally(() => setProviderLoading(false));
+    try {
+      setProviderGames(getLocalThrvexGamesFlat(activeProvider));
+    } catch {
+      setProviderGames([]);
+    } finally {
+      setProviderLoading(false);
+    }
   }, [activeProvider]);
 
   // Filter providers by category - only allow Spribe & JILIGaming
