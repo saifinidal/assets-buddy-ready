@@ -27,6 +27,7 @@ export function CasinoGrid() {
               `https://${projId}.supabase.co/functions/v1/thrvex-games?action=games&provider=${encodeURIComponent(prov)}&v=2`,
               { cache: "no-store" }
             );
+            if (!resp.ok) return [] as ThrvexGame[];
             const json = await resp.json();
             return (json.data || []).slice(0, 8) as ThrvexGame[];
           })
