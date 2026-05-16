@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/loose";
  */
 
 const CACHE_KEY = "site-theme-cache-v2";
+const isBrowser = typeof window !== "undefined";
 
 // Parse "h s% l%" -> { h, s, l }
 function parseHsl(hsl: string): { h: number; s: number; l: number } | null {
@@ -134,7 +135,7 @@ function applyVars(map: Record<string, string>) {
 
 // Apply cached theme synchronously at module import — runs before React mounts
 try {
-  const cached = localStorage.getItem(CACHE_KEY);
+  const cached = isBrowser ? window.localStorage.getItem(CACHE_KEY) : null;
   if (cached) applyVars(JSON.parse(cached));
 } catch {}
 
@@ -150,7 +151,7 @@ export function ThemeApplier() {
       const map: Record<string, string> = {};
       (data as any[]).forEach((r) => { map[r.key] = r.value; });
       applyVars(map);
-      try { localStorage.setItem(CACHE_KEY, JSON.stringify(map)); } catch {}
+      try { if (isBrowser) window.localStorage.setItem(CACHE_KEY, JSON.stringify(map)); } catch {}
     };
     load();
 

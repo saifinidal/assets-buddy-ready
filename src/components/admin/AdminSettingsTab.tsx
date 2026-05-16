@@ -44,12 +44,15 @@ export function AdminSettingsTab({ onSwitchTab }: { onSwitchTab?: (tab: string) 
   const [activeCard, setActiveCard] = useState<string | null>(null);
 
   const [soundEnabled, setSoundEnabled] = useState(() => {
-    const stored = localStorage.getItem("admin-sound-enabled");
+    if (typeof window === "undefined") return true;
+    const stored = window.localStorage.getItem("admin-sound-enabled");
     return stored !== null ? stored === "true" : true;
   });
   const toggleSound = () => {
     setSoundEnabled((prev) => {
-      localStorage.setItem("admin-sound-enabled", String(!prev));
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem("admin-sound-enabled", String(!prev));
+      }
       return !prev;
     });
   };
