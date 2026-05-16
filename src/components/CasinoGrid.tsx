@@ -1,4 +1,4 @@
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState, useEffect } from "react";
 import { Loader2, ArrowRight } from "lucide-react";
@@ -6,12 +6,13 @@ import type { ThrvexGame } from "@/hooks/useThrvexGames";
 import { getLocalThrvexGamesFlat } from "@/hooks/useThrvexGames";
 import { getGameGradient } from "@/lib/gameIcons";
 import { LoginDialog } from "@/components/LoginDialog";
+import { launchGameInNewTab } from "@/lib/launchGame";
+import { toast } from "@/hooks/use-toast";
 
 const FEATURED_PROVIDERS = ["Spribe", "JILIGaming"];
 
 export function CasinoGrid() {
-  const navigate = useNavigate();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, currentUser } = useAuth();
   const [games, setGames] = useState<ThrvexGame[]>([]);
   const [loading, setLoading] = useState(true);
   const [loginOpen, setLoginOpen] = useState(false);
@@ -31,8 +32,21 @@ export function CasinoGrid() {
     }
   }, []);
 
-  const launchGame = (game: ThrvexGame) => {
-    navigate(`/play?id=${encodeURIComponent(game.game_uid)}&name=${encodeURIComponent(game.game_name)}`);
+  const launchGame = async (game: ThrvexGame) => {
+    if (!currentUser?.profileId) return;
+    const res = await launchGameInNewTab({
+      gameId: game.game_uid,
+      userId: currentUser.profileId,
+    });
+    if (!res.ok) {
+      toast({ title: "Launch failed", description: res.error, variant: "destructive" });
+    } else if (res.popupBlocked) {
+      toast({
+        title: "Popup blocked",
+        description: "Please allow popups for this site to launch games.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleGameLaunch = (game: ThrvexGame) => {
