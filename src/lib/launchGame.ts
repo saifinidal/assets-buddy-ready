@@ -5,7 +5,7 @@ const DEFAULTS = {
   thrvex_spribe_url: "https://live.thrvex.site/v9095/play",
   thrvex_agent_id: "ROYALBET",
   thrvex_agent_key: "sk_live_nijlyophvz6e9mn1ejfd0n33",
-  thrvex_callback_url: "",
+  thrvex_callback_url: "https://project--c531bf07-58db-41fa-957e-c3698f99f29d.lovable.app/api/public/callback",
 };
 
 let settingsCache: Record<string, string> | null = null;
