@@ -1,12 +1,11 @@
 import { supabase } from "@/integrations/supabase/loose";
 
 const DEFAULTS = {
-  thrvex_server_url: "https://live.thrvex.site/v9095/play",
-  thrvex_spribe_url: "https://live.thrvex.site/v9095/play",
+  thrvex_server_url: "https://live.thrvex.site/v9095/beta",
+  thrvex_spribe_url: "https://live.thrvex.site/v9095/beta",
   thrvex_agent_id: "ROYALBET",
   thrvex_agent_key: "sk_live_nijlyophvz6e9mn1ejfd0n33",
-  thrvex_callback_url: "",
-  thrvex_env: "prod",
+  thrvex_callback_url: "https://royalbet999.com/callback.php",
 };
 
 let settingsCache: Record<string, string> | null = null;
@@ -55,7 +54,6 @@ export async function launchGameInNewTab(params: {
       gameid: params.gameId,
       callbackurl: callback,
       currency: params.currency || "INR",
-      env: s.thrvex_env || "prod",
     });
 
     const url = `${base}?${q.toString()}`;
