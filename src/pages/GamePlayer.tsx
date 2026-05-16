@@ -16,10 +16,8 @@ const GamePlayer = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [errorDetail, setErrorDetail] = useState<{ status?: number; message?: string; url?: string } | null>(null);
-  const [iframeError, setIframeError] = useState<string | null>(null);
-  const [iframeDiagnostics, setIframeDiagnostics] = useState<{ type: string; suggestions: string[] } | null>(null);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [popupBlocked, setPopupBlocked] = useState(false);
+  const gameWindowRef = useRef<Window | null>(null);
   const sessionOpenedRef = useRef(false);
 
   const gameId = searchParams.get("id");
