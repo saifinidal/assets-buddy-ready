@@ -33,12 +33,11 @@ import { MaintenanceGate } from "./components/MaintenanceGate";
 
 const queryClient = new QueryClient();
 
-const initialEntry =
-  typeof window !== "undefined"
-    ? `${window.location.pathname}${window.location.search}${window.location.hash}`
-    : "/";
+interface AppProps {
+  initialEntry: string;
+}
 
-const App = () => (
+const App = ({ initialEntry }: AppProps) => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
     <TooltipProvider>
