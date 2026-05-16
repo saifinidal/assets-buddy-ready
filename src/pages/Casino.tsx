@@ -14,6 +14,7 @@ import { normalizeProviderKey } from "@/lib/normalizeProvider";
 
 import { CasinoHistoryPanel } from "@/components/CasinoHistoryPanel";
 import { LoginDialog } from "@/components/LoginDialog";
+import { launchGameInNewTab } from "@/lib/launchGame";
 
 type LaunchStatus = "idle" | "loading" | "success" | "error";
 
