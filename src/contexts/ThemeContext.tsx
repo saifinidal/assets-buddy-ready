@@ -1,5 +1,19 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
+const isBrowser = typeof window !== "undefined";
+
+const getStoredBoolean = (key: string, fallback: boolean) => {
+  if (!isBrowser) return fallback;
+  const stored = window.localStorage.getItem(key);
+  return stored !== null ? stored === "true" : fallback;
+};
+
+const getStoredTheme = (): "light" | "dark" => {
+  if (!isBrowser) return "light";
+  const stored = window.localStorage.getItem("theme");
+  return stored === "dark" || stored === "light" ? stored : "light";
+};
+
 interface ThemeContextType {
   theme: "light" | "dark";
   toggleTheme: () => void;
@@ -15,18 +29,13 @@ const ThemeContext = createContext<ThemeContextType>({
 });
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [adminDarkModeEnabled, setAdminDarkModeEnabled] = useState(() => {
-    const stored = localStorage.getItem("admin-dark-mode-enabled");
-    return stored !== null ? stored === "true" : true;
-  });
+  const [adminDarkModeEnabled, setAdminDarkModeEnabled] = useState(() => getStoredBoolean("admin-dark-mode-enabled", true));
 
-  const [theme, setTheme] = useState<"light" | "dark">(() => {
-    const stored = localStorage.getItem("theme");
-    if (stored === "dark" || stored === "light") return stored;
-    return "light";
-  });
+  const [theme, setTheme] = useState<"light" | "dark">(() => getStoredTheme());
 
   useEffect(() => {
+    if (!isBrowser) return;
+
     const root = document.documentElement;
     const isDark = theme === "dark" && adminDarkModeEnabled;
     if (isDark) {
@@ -34,7 +43,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     } else {
       root.classList.remove("dark");
     }
-    localStorage.setItem("theme", theme);
+    window.localStorage.setItem("theme", theme);
 
     // Sync favicon + theme-color with active theme (overrides OS preference)
     const faviconHref = isDark ? "/favicon-dark.png" : "/favicon-light.png";
@@ -52,7 +61,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, [theme, adminDarkModeEnabled]);
 
   useEffect(() => {
-    localStorage.setItem("admin-dark-mode-enabled", String(adminDarkModeEnabled));
+    if (!isBrowser) return;
+
+    window.localStorage.setItem("admin-dark-mode-enabled", String(adminDarkModeEnabled));
     // If admin disables dark mode, force light
     if (!adminDarkModeEnabled) {
       document.documentElement.classList.remove("dark");
