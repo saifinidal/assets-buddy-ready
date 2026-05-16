@@ -58,13 +58,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   const fetchProfile = useCallback(async (userId: string, email?: string | null) => {
-    const { data: profile } = await supabase
+    const { data: profile, error: profileErr } = await supabase
       .from("profiles")
       .select("*")
       .eq("user_id", userId)
-      .single();
+      .maybeSingle();
+
+    // Transient network / RLS hiccup — do NOT wipe existing currentUser,
+    // otherwise UI flips to "logged out" while the session is still valid.
+    if (profileErr) {
+      console.warn("[auth] fetchProfile error, keeping current user:", profileErr.message);
+      return null;
+    }
 
     if (!profile) {
+      // Truly no profile row — only then clear.
       setCurrentUser(null);
       return null;
     }
