@@ -14,6 +14,7 @@ import { normalizeProviderKey } from "@/lib/normalizeProvider";
 
 import { CasinoHistoryPanel } from "@/components/CasinoHistoryPanel";
 import { LoginDialog } from "@/components/LoginDialog";
+import { launchGameInNewTab } from "@/lib/launchGame";
 
 type LaunchStatus = "idle" | "loading" | "success" | "error";
 
@@ -213,33 +214,32 @@ const Casino = () => {
 
     setGameStatus(game.game_uid, "loading");
 
-    try {
-      const { data, error: fnError } = await supabase.functions.invoke("game-launch", {
-        body: { gameid: game.game_uid, userid: currentUser.profileId },
-      });
+    const res = await launchGameInNewTab({
+      gameId: game.game_uid,
+      userId: currentUser.profileId,
+    });
 
-      if (fnError || data?.launch_error || !data?.url) {
-        setGameStatus(game.game_uid, "error");
-        toast({
-          title: "Game Unavailable",
-          description: data?.error || "This game is currently unavailable. Please try another game.",
-          variant: "destructive",
-        });
-        setTimeout(() => setGameStatus(game.game_uid, "idle"), 3000);
-        return;
-      }
-
-      setGameStatus(game.game_uid, "success");
-      // Brief success flash before navigating
-      setTimeout(() => {
-        navigate(`/play?id=${encodeURIComponent(game.game_uid)}&name=${encodeURIComponent(game.game_name)}`);
-      }, 600);
-    } catch {
+    if (!res.ok) {
       setGameStatus(game.game_uid, "error");
-      toast({ title: "Connection Error", description: "Could not reach game server.", variant: "destructive" });
+      toast({ title: "Launch failed", description: res.error, variant: "destructive" });
       setTimeout(() => setGameStatus(game.game_uid, "idle"), 3000);
+      return;
     }
-  }, [isLoggedIn, currentUser, launchStatuses, navigate, toast, setGameStatus]);
+
+    if (res.popupBlocked) {
+      setGameStatus(game.game_uid, "error");
+      toast({
+        title: "Popup blocked",
+        description: "Please allow popups for this site to launch games.",
+        variant: "destructive",
+      });
+      setTimeout(() => setGameStatus(game.game_uid, "idle"), 3000);
+      return;
+    }
+
+    setGameStatus(game.game_uid, "success");
+    setTimeout(() => setGameStatus(game.game_uid, "idle"), 1500);
+  }, [isLoggedIn, currentUser, launchStatuses, toast, setGameStatus]);
 
   const handleCategoryChange = (catId: string) => {
     setActiveCategory(catId);
