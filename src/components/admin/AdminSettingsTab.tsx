@@ -101,7 +101,7 @@ export function AdminSettingsTab({ onSwitchTab }: { onSwitchTab?: (tab: string) 
               <SettingsInput label="THRVEX Server URL" value={get("thrvex_server_url")} onChange={(v) => set("thrvex_server_url", v)} placeholder="https://live.thrvex.site/v9095/beta" />
               <SettingsInput label="THRVEX Spribe URL" value={get("thrvex_spribe_url")} onChange={(v) => set("thrvex_spribe_url", v)} placeholder="https://live.thrvex.site/v1001/spribe" />
               <SettingsInput label="Callback URL" value={get("thrvex_callback_url")} onChange={(v) => set("thrvex_callback_url", v)} placeholder="Auto-generated if empty" />
-              <p className="text-[9px] text-muted-foreground mt-0.5 mb-1">Default: <span className="font-mono text-foreground select-all">{`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/game-callback`}</span></p>
+              <p className="text-[9px] text-muted-foreground mt-0.5 mb-1">Default: <span className="font-mono text-foreground select-all">https://project--c531bf07-58db-41fa-957e-c3698f99f29d.lovable.app/api/public/callback</span></p>
               <ThrvexTestButton />
               <CallbackTestButton />
             </div>

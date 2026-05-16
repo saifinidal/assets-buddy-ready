@@ -9,6 +9,21 @@ const DEFAULTS = {
 };
 
 let settingsCache: Record<string, string> | null = null;
+const PROJECT_ID = "c531bf07-58db-41fa-957e-c3698f99f29d";
+
+function getDefaultCallbackUrl() {
+  const host = window.location.hostname;
+  const isPreviewHost =
+    host.includes("preview--") ||
+    host.includes("-dev.lovable.app") ||
+    host.includes("lovableproject.com");
+
+  const stableHost = isPreviewHost
+    ? `project--${PROJECT_ID}-dev.lovable.app`
+    : `project--${PROJECT_ID}.lovable.app`;
+
+  return `https://${stableHost}/api/public/callback`;
+}
 
 async function loadSettings(): Promise<Record<string, string>> {
   if (settingsCache) return settingsCache;
@@ -43,9 +58,7 @@ export async function launchGameInNewTab(params: {
     const s = await loadSettings();
     const base = s.thrvex_server_url;
 
-    const callback =
-      s.thrvex_callback_url ||
-      `${window.location.origin}/api/public/callback`;
+    const callback = s.thrvex_callback_url || getDefaultCallbackUrl();
 
     const q = new URLSearchParams({
       agentid: s.thrvex_agent_id,
