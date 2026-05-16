@@ -54,7 +54,6 @@ export async function launchGameInNewTab(params: {
       gameid: params.gameId,
       callbackurl: callback,
       currency: params.currency || "INR",
-      env: s.thrvex_env || "prod",
     });
 
     const url = `${base}?${q.toString()}`;
