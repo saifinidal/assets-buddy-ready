@@ -65,7 +65,8 @@ const AdminPanel = () => {
   const [notifOpen, setNotifOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(5);
   const [soundEnabled, setSoundEnabled] = useState(() => {
-    const stored = localStorage.getItem("admin-sound-enabled");
+    if (typeof window === "undefined") return true;
+    const stored = window.localStorage.getItem("admin-sound-enabled");
     return stored !== null ? stored === "true" : true;
   });
   const handleCountChange = useCallback((count: number) => setUnreadCount(count), []);
