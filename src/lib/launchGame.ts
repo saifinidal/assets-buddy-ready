@@ -45,7 +45,7 @@ export async function launchGameInNewTab(params: {
 
     const callback =
       s.thrvex_callback_url ||
-      `${window.location.origin}/api/callback`;
+      `${window.location.origin}/api/public/callback`;
 
     const q = new URLSearchParams({
       agentid: s.thrvex_agent_id,
