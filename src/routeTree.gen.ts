@@ -34,6 +34,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MatchIdRouteImport } from './routes/match.$id'
+import { Route as ApiPublicCallbackRouteImport } from './routes/api/public/callback'
 
 const WalletRoute = WalletRouteImport.update({
   id: '/wallet',
@@ -160,6 +161,11 @@ const MatchIdRoute = MatchIdRouteImport.update({
   path: '/match/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicCallbackRoute = ApiPublicCallbackRouteImport.update({
+  id: '/api/public/callback',
+  path: '/api/public/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -187,6 +193,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/wallet': typeof WalletRoute
   '/match/$id': typeof MatchIdRoute
+  '/api/public/callback': typeof ApiPublicCallbackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -214,6 +221,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/wallet': typeof WalletRoute
   '/match/$id': typeof MatchIdRoute
+  '/api/public/callback': typeof ApiPublicCallbackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -242,6 +250,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/wallet': typeof WalletRoute
   '/match/$id': typeof MatchIdRoute
+  '/api/public/callback': typeof ApiPublicCallbackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -271,6 +280,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/wallet'
     | '/match/$id'
+    | '/api/public/callback'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -298,6 +308,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/wallet'
     | '/match/$id'
+    | '/api/public/callback'
   id:
     | '__root__'
     | '/'
@@ -325,6 +336,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/wallet'
     | '/match/$id'
+    | '/api/public/callback'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -353,6 +365,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   WalletRoute: typeof WalletRoute
   MatchIdRoute: typeof MatchIdRoute
+  ApiPublicCallbackRoute: typeof ApiPublicCallbackRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -532,6 +545,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MatchIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/callback': {
+      id: '/api/public/callback'
+      path: '/api/public/callback'
+      fullPath: '/api/public/callback'
+      preLoaderRoute: typeof ApiPublicCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -561,6 +581,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   WalletRoute: WalletRoute,
   MatchIdRoute: MatchIdRoute,
+  ApiPublicCallbackRoute: ApiPublicCallbackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

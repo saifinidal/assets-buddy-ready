@@ -86,7 +86,7 @@ export const Route = createFileRoute("/api/public/callback")({
 
           // Best-effort transaction log (ignore if table absent)
           try {
-            await supabaseAdmin.from("casino_transactions").insert({
+            await (supabaseAdmin as any).from("casino_transactions").insert({
               profile_id: userId,
               bet_amount: bet,
               win_amount: win,
