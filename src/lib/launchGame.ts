@@ -1,8 +1,8 @@
 import { supabase } from "@/integrations/supabase/loose";
 
 const DEFAULTS = {
-  thrvex_server_url: "https://live.thrvex.site/v9095/beta",
-  thrvex_spribe_url: "https://live.thrvex.site/v9095/beta",
+  thrvex_server_url: "https://live.thrvex.site/v9095/play",
+  thrvex_spribe_url: "https://live.thrvex.site/v9095/play",
   thrvex_agent_id: "ROYALBET",
   thrvex_agent_key: "sk_live_nijlyophvz6e9mn1ejfd0n33",
   thrvex_callback_url: "",
