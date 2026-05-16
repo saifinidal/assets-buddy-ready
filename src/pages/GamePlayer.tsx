@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/loose";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSpribeBalanceSync } from "@/hooks/useSpribeBalanceSync";
 import { useCasinoSession } from "@/hooks/useCasinoSession";
-import { Loader2, X, Maximize2, Minimize2, RotateCcw, WifiOff } from "lucide-react";
+import { Loader2, X, RotateCcw, WifiOff, ExternalLink } from "lucide-react";
 
 const GamePlayer = () => {
   const [searchParams] = useSearchParams();
