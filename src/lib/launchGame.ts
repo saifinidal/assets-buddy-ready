@@ -1,11 +1,12 @@
 import { supabase } from "@/integrations/supabase/loose";
 
 const DEFAULTS = {
-  thrvex_server_url: "https://live.thrvex.site/v9095/beta",
-  thrvex_spribe_url: "https://live.thrvex.site/v1001/spribe",
-  thrvex_agent_id: "GD007",
-  thrvex_agent_key: "",
+  thrvex_server_url: "https://live.thrvex.site/v9095/play",
+  thrvex_spribe_url: "https://live.thrvex.site/v9095/play",
+  thrvex_agent_id: "ROYALBET",
+  thrvex_agent_key: "sk_live_nijlyophvz6e9mn1ejfd0n33",
   thrvex_callback_url: "",
+  thrvex_env: "prod",
 };
 
 let settingsCache: Record<string, string> | null = null;
@@ -30,7 +31,6 @@ async function loadSettings(): Promise<Record<string, string>> {
 
 /**
  * Build the THRVEX launch URL and open it directly in a new tab.
- * Returns { ok, popupBlocked, url, error } so caller can show fallback UI.
  */
 export async function launchGameInNewTab(params: {
   gameId: string;
@@ -42,8 +42,7 @@ export async function launchGameInNewTab(params: {
 
   try {
     const s = await loadSettings();
-    const isSpribe = /^22_2200[0-9]$/.test(params.gameId);
-    const base = isSpribe ? s.thrvex_spribe_url : s.thrvex_server_url;
+    const base = s.thrvex_server_url;
 
     const callback =
       s.thrvex_callback_url ||
@@ -56,6 +55,7 @@ export async function launchGameInNewTab(params: {
       gameid: params.gameId,
       callbackurl: callback,
       currency: params.currency || "INR",
+      env: s.thrvex_env || "prod",
     });
 
     const url = `${base}?${q.toString()}`;
