@@ -58,13 +58,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   const fetchProfile = useCallback(async (userId: string, email?: string | null) => {
-    const { data: profile } = await supabase
+    const { data: profile, error: profileErr } = await supabase
       .from("profiles")
       .select("*")
       .eq("user_id", userId)
-      .single();
+      .maybeSingle();
+
+    // Transient network / RLS hiccup — do NOT wipe existing currentUser,
+    // otherwise UI flips to "logged out" while the session is still valid.
+    if (profileErr) {
+      console.warn("[auth] fetchProfile error, keeping current user:", profileErr.message);
+      return null;
+    }
 
     if (!profile) {
+      // Truly no profile row — only then clear.
       setCurrentUser(null);
       return null;
     }
@@ -102,15 +110,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        // Only clear on explicit sign-out or user deletion.
+        // INITIAL_SESSION with null is handled by the IIFE below.
+        // TOKEN_REFRESHED / USER_UPDATED with a session must NEVER wipe state.
+        if (event === "SIGNED_OUT") {
+          setAuthUser(null);
+          setCurrentUser(null);
+          setLoading(false);
+          return;
+        }
+
         if (session?.user) {
           setAuthUser(session.user);
           setTimeout(() => {
             fetchProfile(session.user.id, session.user.email).finally(() => setLoading(false));
           }, 0);
-        } else {
-          setAuthUser(null);
-          setCurrentUser(null);
-          setLoading(false);
         }
       }
     );
