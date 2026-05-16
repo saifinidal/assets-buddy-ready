@@ -127,15 +127,11 @@ const GamePlayer = () => {
     navigate("/casino");
   };
 
-  const handleFullscreen = () => {
-    const el = document.documentElement;
-    if (!isFullscreen) {
-      el.requestFullscreen?.();
-    } else {
-      document.exitFullscreen?.();
-    }
-    setIsFullscreen(!isFullscreen);
-  };
+  // Auto-open game in new tab when URL is ready
+  useEffect(() => {
+    if (gameUrl) openGameTab(gameUrl);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameUrl]);
 
   const handleReload = () => {
     if (!currentUser) return;
@@ -143,6 +139,7 @@ const GamePlayer = () => {
     setGameUrl(null);
     setError(null);
     setErrorDetail(null);
+    setPopupBlocked(false);
     const launchGame = async () => {
       try {
         const { data, error: fnError } = await supabase.functions.invoke("game-launch", {
@@ -180,37 +177,34 @@ const GamePlayer = () => {
         <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
           <span className="text-xs sm:text-sm">🎮</span>
           <h1 className="text-[11px] sm:text-xs md:text-sm font-bold text-foreground truncate max-w-[120px] sm:max-w-[200px] md:max-w-none">{gameName}</h1>
-          {!loading && !error && (
-            <span className="shrink-0 rounded bg-live/20 px-1 sm:px-1.5 py-0.5 text-[8px] sm:text-[9px] font-bold text-live">LIVE</span>
+          {!loading && !error && gameUrl && (
+            <span className="shrink-0 rounded bg-live/20 px-1 sm:px-1.5 py-0.5 text-[8px] sm:text-[9px] font-bold text-live">RUNNING</span>
           )}
         </div>
         <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
           <button onClick={handleReload} className="rounded p-1 sm:p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors" title="Reload">
             <RotateCcw className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
           </button>
-          <button onClick={handleFullscreen} className="hidden sm:block rounded p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors" title="Fullscreen">
-            {isFullscreen ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
-          </button>
-          <button onClick={handleClose} className="rounded p-1 sm:p-1.5 text-destructive hover:bg-destructive/10 transition-colors" title="Close">
+          <button onClick={handleClose} className="rounded p-1 sm:p-1.5 text-destructive hover:bg-destructive/10 transition-colors" title="Close & Return">
             <X className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
           </button>
         </div>
       </div>
 
-      <div className="flex-1 relative overflow-hidden">
+      <div className="flex-1 relative overflow-hidden flex items-center justify-center px-4">
         {loading && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 sm:gap-3 bg-background">
+          <div className="flex flex-col items-center justify-center gap-2 sm:gap-3">
             <Loader2 className="h-6 w-6 sm:h-8 sm:w-8 animate-spin text-primary" />
-            <p className="text-xs sm:text-sm font-medium text-muted-foreground px-4 text-center">Loading {gameName}...</p>
+            <p className="text-xs sm:text-sm font-medium text-muted-foreground text-center">Launching {gameName}...</p>
           </div>
         )}
 
-        {(error || iframeError) && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 sm:gap-3 bg-background px-4 z-10">
+        {error && (
+          <div className="flex flex-col items-center justify-center gap-2 sm:gap-3 max-w-md w-full">
             <WifiOff className="h-8 w-8 sm:h-10 sm:w-10 text-muted-foreground" />
-            <p className="text-xs sm:text-sm font-medium text-foreground text-center">{error || iframeError}</p>
+            <p className="text-xs sm:text-sm font-medium text-foreground text-center">{error}</p>
             {errorDetail && (
-              <div className="w-full max-w-sm rounded-md border border-border bg-card p-3 space-y-1">
+              <div className="w-full rounded-md border border-border bg-card p-3 space-y-1">
                 {errorDetail.status && (
                   <p className="text-[10px] text-muted-foreground">
                     <span className="font-bold">HTTP Status:</span>{" "}
@@ -225,45 +219,11 @@ const GamePlayer = () => {
                     <span className="font-bold">Request:</span> <span className="font-mono text-foreground">{errorDetail.url}</span>
                   </p>
                 )}
-                <p className="text-[10px] text-muted-foreground">
-                  <span className="font-bold">Time:</span> <span className="text-foreground">{new Date().toLocaleString()}</span>
-                </p>
-              </div>
-            )}
-            {iframeError && !errorDetail && (
-              <div className="w-full max-w-sm rounded-md border border-border bg-card p-3 space-y-1">
-                <p className="text-[10px] text-muted-foreground">
-                  <span className="font-bold">Game ID:</span> <span className="font-mono text-foreground">{gameId}</span>
-                </p>
-                <p className="text-[10px] text-muted-foreground">
-                  <span className="font-bold">Source:</span> <span className="font-mono text-foreground">iframe load failure</span>
-                </p>
-                {iframeDiagnostics && (
-                  <p className="text-[10px] text-muted-foreground">
-                    <span className="font-bold">Type:</span> <span className="font-mono text-foreground">{iframeDiagnostics.type}</span>
-                  </p>
-                )}
-                <p className="text-[10px] text-muted-foreground">
-                  <span className="font-bold">Time:</span> <span className="text-foreground">{new Date().toLocaleString()}</span>
-                </p>
-              </div>
-            )}
-            {iframeDiagnostics && iframeDiagnostics.suggestions.length > 0 && (
-              <div className="w-full max-w-sm rounded-md border border-yellow-500/30 bg-yellow-500/5 p-3">
-                <p className="text-[10px] font-bold text-yellow-600 dark:text-yellow-400 mb-1.5">💡 Troubleshooting Suggestions:</p>
-                <ul className="space-y-1">
-                  {iframeDiagnostics.suggestions.map((s, i) => (
-                    <li key={i} className="text-[10px] text-muted-foreground flex gap-1.5">
-                      <span className="shrink-0">•</span>
-                      <span>{s}</span>
-                    </li>
-                  ))}
-                </ul>
               </div>
             )}
             <div className="flex gap-2">
               {isLoggedIn && (
-                <button onClick={() => { setIframeError(null); setIframeDiagnostics(null); handleReload(); }} className="rounded-md bg-primary px-3 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs font-bold text-primary-foreground">
+                <button onClick={handleReload} className="rounded-md bg-primary px-3 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs font-bold text-primary-foreground">
                   Try Again
                 </button>
               )}
@@ -274,16 +234,44 @@ const GamePlayer = () => {
           </div>
         )}
 
-        {gameUrl && (
-          <iframe
-            ref={iframeRef}
-            src={gameUrl}
-            className="w-full h-full border-0"
-            allow="autoplay; fullscreen; encrypted-media; clipboard-write"
-            allowFullScreen
-            title={gameName}
-            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
-          />
+        {!loading && !error && gameUrl && (
+          <div className="flex flex-col items-center justify-center gap-4 max-w-md w-full text-center">
+            <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-primary/10 flex items-center justify-center">
+              <ExternalLink className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
+            </div>
+            <h2 className="text-base sm:text-lg font-bold text-foreground">{gameName}</h2>
+            {popupBlocked ? (
+              <>
+                <p className="text-xs sm:text-sm text-destructive font-medium">
+                  Popup blocked! Click below to open the game.
+                </p>
+                <button
+                  onClick={() => openGameTab(gameUrl)}
+                  className="rounded-md bg-primary px-5 py-2.5 text-xs sm:text-sm font-bold text-primary-foreground inline-flex items-center gap-2"
+                >
+                  <ExternalLink className="h-4 w-4" /> Open Game in New Tab
+                </button>
+              </>
+            ) : (
+              <>
+                <p className="text-xs sm:text-sm text-muted-foreground">
+                  Game opened in a new tab. Keep this window open — your balance will sync when you close the game tab and return here.
+                </p>
+                <button
+                  onClick={() => openGameTab(gameUrl)}
+                  className="rounded-md bg-primary px-5 py-2.5 text-xs sm:text-sm font-bold text-primary-foreground inline-flex items-center gap-2"
+                >
+                  <ExternalLink className="h-4 w-4" /> Reopen Game Tab
+                </button>
+              </>
+            )}
+            <button
+              onClick={handleClose}
+              className="text-[11px] sm:text-xs text-muted-foreground hover:text-foreground underline"
+            >
+              Close & Return to Casino
+            </button>
+          </div>
         )}
       </div>
     </div>
