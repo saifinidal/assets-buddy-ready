@@ -97,18 +97,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return nextUser;
   }, []);
 
-  // Listen to auth state changes
+  // Listen to auth state changes — NEVER await supabase calls inside this
+  // callback; it holds an internal auth lock and will deadlock. Defer via setTimeout.
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
         if (session?.user) {
           setAuthUser(session.user);
-          await fetchProfile(session.user.id, session.user.email);
+          setTimeout(() => {
+            fetchProfile(session.user.id, session.user.email).finally(() => setLoading(false));
+          }, 0);
         } else {
           setAuthUser(null);
           setCurrentUser(null);
+          setLoading(false);
         }
-        setLoading(false);
       }
     );
 
