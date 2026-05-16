@@ -112,98 +112,16 @@ const GamePlayer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSpribe, currentUser?.profileId]);
 
-  // Iframe load/error detection
-  useEffect(() => {
-    const iframe = iframeRef.current;
-    if (!iframe || !gameUrl) return;
-
-    const handleIframeError = () => {
-      setIframeError("The game failed to load. The provider may be blocking the connection or the URL is invalid.");
-      setIframeDiagnostics({
-        type: "NETWORK_ERROR",
-        suggestions: [
-          "Check your internet connection",
-          "The game provider server may be down",
-          "Your IP or region may be blocked by the provider",
-          "Try using a VPN or different network",
-        ],
-      });
-      setLoading(false);
-    };
-
-    let crossOriginDetected = false;
-
-    const handleIframeLoad = () => {
-      setLoading(false);
-      try {
-        const doc = iframe.contentDocument;
-        if (doc) {
-          const title = doc.title || "";
-          const bodyText = doc.body?.innerText?.slice(0, 500) || "";
-          if (/access denied|forbidden|404|not found|error/i.test(title)) {
-            setIframeError(`Game provider returned an error page: "${title}". ${bodyText.slice(0, 200)}`);
-            setIframeDiagnostics({
-              type: "PROVIDER_ERROR",
-              suggestions: [
-                "The provider rejected the request — credentials (Agent ID/Key) may be invalid",
-                "Your account may not be whitelisted with the provider",
-                "The game may be unavailable in your region",
-              ],
-            });
-          }
-        }
-      } catch (e) {
-        // Cross-origin: iframe loaded something but we can't inspect it
-        crossOriginDetected = true;
-        setIframeDiagnostics({
-          type: "CROSS_ORIGIN",
-          suggestions: [
-            "The game loaded on a different domain — content inspection is blocked by browser security (this is normal for working games)",
-            "If the game appears blank or broken, the provider may be geo/IP-blocking your region",
-            "Try disabling ad-blockers or browser privacy extensions",
-            "Verify THRVEX Agent ID & Key are correct in Admin → Settings → Game API",
-            "Contact the game provider to confirm your domain/IP is whitelisted",
-          ],
-        });
-      }
-
-      // If cross-origin and iframe shows nothing after 5s, flag it
-      if (crossOriginDetected) {
-        setTimeout(() => {
-          const rect = iframe.getBoundingClientRect();
-          if (rect.width === 0 || rect.height === 0) {
-            setIframeError("Game iframe has no visible content. The provider may have blocked this request.");
-          }
-        }, 5000);
-      }
-    };
-
-    iframe.addEventListener("error", handleIframeError);
-    iframe.addEventListener("load", handleIframeLoad);
-
-    // Timeout: if iframe hasn't loaded in 30s, show error
-    const timeout = setTimeout(() => {
-      if (loading) {
-        setIframeError("Game took too long to load. The provider may be unreachable.");
-        setIframeDiagnostics({
-          type: "TIMEOUT",
-          suggestions: [
-            "The game provider did not respond within 30 seconds",
-            "Your network may be slow or the provider's server is down",
-            "Your IP or region may be blocked — try a VPN",
-            "Check that the THRVEX Server URL is correct in Admin → Settings",
-          ],
-        });
-        setLoading(false);
-      }
-    }, 30000);
-
-    return () => {
-      iframe.removeEventListener("error", handleIframeError);
-      iframe.removeEventListener("load", handleIframeLoad);
-      clearTimeout(timeout);
-    };
-  }, [gameUrl, loading]);
+  // Open game in new tab whenever gameUrl is set
+  const openGameTab = (url: string) => {
+    const win = window.open(url, "_blank", "noopener,noreferrer");
+    if (!win) {
+      setPopupBlocked(true);
+    } else {
+      setPopupBlocked(false);
+      gameWindowRef.current = win;
+    }
+  };
 
   const handleClose = () => {
     navigate("/casino");
