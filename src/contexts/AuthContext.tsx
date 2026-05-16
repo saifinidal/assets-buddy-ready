@@ -110,15 +110,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        // Only clear on explicit sign-out or user deletion.
+        // INITIAL_SESSION with null is handled by the IIFE below.
+        // TOKEN_REFRESHED / USER_UPDATED with a session must NEVER wipe state.
+        if (event === "SIGNED_OUT") {
+          setAuthUser(null);
+          setCurrentUser(null);
+          setLoading(false);
+          return;
+        }
+
         if (session?.user) {
           setAuthUser(session.user);
           setTimeout(() => {
             fetchProfile(session.user.id, session.user.email).finally(() => setLoading(false));
           }, 0);
-        } else {
-          setAuthUser(null);
-          setCurrentUser(null);
-          setLoading(false);
         }
       }
     );
