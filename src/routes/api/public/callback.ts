@@ -84,19 +84,61 @@ export const Route = createFileRoute("/api/public/callback")({
             .eq("id", userId);
           if (updErr) throw updErr;
 
-          // Best-effort transaction log (ignore if table absent)
-          try {
-            await (supabaseAdmin as any).from("casino_transactions").insert({
-              profile_id: userId,
-              bet_amount: bet,
-              win_amount: win,
-              net_amount: net,
-              balance_after: newBalance,
-              game_name: gameName,
-              provider_name: provider,
-            });
-          } catch {
-            /* table optional */
+          // Log into bets history (so it shows in Bet History page)
+          if (bet > 0 || win > 0) {
+            const result =
+              bet === 0 && win === 0
+                ? "void"
+                : win > bet
+                ? "won"
+                : win === bet
+                ? "void"
+                : "lost";
+            const odds = bet > 0 ? Number((win / bet).toFixed(2)) || 1 : 1;
+            const label = gameName || provider || "Casino Game";
+
+            try {
+              await (supabaseAdmin as any).from("bets").insert({
+                profile_id: userId,
+                match_event: provider ? `${provider} • ${label}` : label,
+                selection: label,
+                bet_type: "back",
+                stake: bet,
+                odds,
+                result,
+                profit: net,
+              });
+            } catch {
+              /* ignore */
+            }
+
+            // Also log casino session
+            try {
+              await (supabaseAdmin as any).from("casino_sessions").insert({
+                profile_id: userId,
+                provider,
+                game_name: gameName,
+                game_id: String(body.game_id || body.gameid || ""),
+                balance_before: current,
+                balance_after: newBalance,
+              });
+            } catch {
+              /* ignore */
+            }
+
+            // Transaction ledger entry
+            try {
+              await (supabaseAdmin as any).from("transactions").insert({
+                profile_id: userId,
+                type: net >= 0 ? "casino_win" : "casino_bet",
+                description: `${label}${provider ? ` (${provider})` : ""} — bet ₹${bet}, win ₹${win}`,
+                credit: win,
+                debit: bet,
+                balance: newBalance,
+              });
+            } catch {
+              /* ignore */
+            }
           }
 
           return json({ code: 0, balance: newBalance.toFixed(2) });
